@@ -10,7 +10,7 @@ __pycache__/
 .streamlit/
 
 # Uploaded images
-data/raw_images/*
+data/raw_images/
 data/celebrity_outfits/**
 
 # OS files

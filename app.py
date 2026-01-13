@@ -1,156 +1,205 @@
 import streamlit as st
 import os
 
-from src.color_extraction import extract_dominant_color
+from src.color_extraction import extract_top_colors
 from src.color_matching import match_colors
 from src.predict_shirt_type import predict_shirt_type
 from src.pant_recommendation import recommend_pants
-from src.celebrity_recommendation import recommend_celebrity_outfits
+from src.turban_recommendation import recommend_turban
+from src.fitti_color_mapping import rgb_to_fitti_color
+from src.fitti_recommendation import recommend_fitti
+from src.turban_images import (
+    get_primary_turban_images,
+    get_fitti_images
+)
+from src.pant_images import get_pant_images
+
+
+# =========================
+# HELPER FUNCTION
+# =========================
+def get_shirt_color_category(rgb):
+    avg = sum(rgb) / 3
+    if avg > 220:
+        return "white"
+    elif avg < 90:
+        return "dark"
+    elif avg > 170:
+        return "light"
+    else:
+        return "pastel"
 
 
 # =========================
 # PAGE CONFIG
 # =========================
 st.set_page_config(
-    page_title="AI Outfit Recommendation",
-    page_icon="👔",
+    page_title="AI Punjabi Outfit Recommendation",
+    page_icon="🧢",
     layout="wide"
 )
 
 # =========================
-# DARK PROFESSIONAL UI (CSS)
+# DARK UI
 # =========================
-st.markdown(
-    """
-    <style>
-    .stApp {
-        background-color: #0f172a;
-    }
-
-    .block-container {
-        padding-top: 2.5rem;
-        padding-bottom: 2rem;
-    }
-
-    h1, h2, h3 {
-        color: #e5e7eb;
-        font-weight: 600;
-    }
-
-    p, li, span, div {
-        color: #cbd5e1;
-        font-size: 15px;
-    }
-
-    section[data-testid="stFileUploader"] {
-        background-color: #111827;
-        padding: 1rem;
-        border-radius: 12px;
-        border: 1px solid #1f2933;
-    }
-
-    img {
-        border-radius: 12px;
-    }
-
-    .stAlert {
-        background-color: #111827;
-        border-radius: 10px;
-        border: 1px solid #1f2933;
-    }
-
-    button {
-        background-color: #1f2937 !important;
-        color: #e5e7eb !important;
-        border-radius: 8px !important;
-        border: 1px solid #374151 !important;
-    }
-
-    hr {
-        border-top: 1px solid #1f2937;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+st.markdown("""
+<style>
+.stApp { background-color: #0f172a; }
+.block-container { padding-top: 2rem; }
+h1, h2, h3 { color: #e5e7eb; }
+p, span, div { color: #cbd5e1; }
+img { border-radius: 12px; }
+</style>
+""", unsafe_allow_html=True)
 
 # =========================
 # TITLE
 # =========================
-st.title("👔 AI Outfit Recommendation System")
-st.caption("Upload a shirt image on the left and get outfit recommendations on the right")
+st.title("🧢 AI Punjabi Outfit & Turban Recommendation")
+st.caption("Shirt image → Punjabi turban → FITTI balance → Pant style")
 
 st.divider()
 
 # =========================
-# MAIN LAYOUT
+# LAYOUT
 # =========================
 left_col, right_col = st.columns([1, 2])
 
-
 # =========================
-# LEFT SIDE — INPUT
+# LEFT — INPUT
 # =========================
 with left_col:
-    st.subheader("📤 Input")
+    st.subheader("📤 Upload Shirt Image")
 
     uploaded_file = st.file_uploader(
-        "Upload a shirt image",
+        "Choose a shirt image",
         type=["jpg", "jpeg", "png"]
     )
 
     if uploaded_file:
+        os.makedirs("data/raw_images", exist_ok=True)
         image_path = os.path.join("data/raw_images", uploaded_file.name)
+
         with open(image_path, "wb") as f:
             f.write(uploaded_file.getbuffer())
 
-        st.image(image_path, width=350, caption="Uploaded Image")
-
+        st.image(image_path, width=320, caption="Uploaded Shirt")
 
 # =========================
-# RIGHT SIDE — OUTPUT
+# RIGHT — OUTPUT
 # =========================
 with right_col:
-    st.subheader("🧠 AI Output")
+    st.subheader("🧠 AI Recommendation Output")
 
     if uploaded_file:
+        with st.spinner("Analyzing full Punjabi outfit styling..."):
 
-        with st.spinner("Analyzing outfit..."):
-
-            # Color extraction
-            dominant_rgb = extract_dominant_color(image_path)
+            # -------- SHIRT COLORS --------
+            dominant_rgb, secondary_rgb = extract_top_colors(image_path)
             shirt_colors = match_colors(dominant_rgb)
 
-            # Shirt type prediction
+            # -------- SHIRT TYPE --------
             shirt_type = predict_shirt_type(image_path)
+            shirt_type = shirt_type.lower().replace(" ", "_")
 
-            # Pant recommendation
+            # -------- SHIRT COLOR CATEGORY --------
+            shirt_color_category = get_shirt_color_category(dominant_rgb)
+
+            # -------- TURBAN PRIMARY --------
+            turban_result = recommend_turban(
+                shirt_color_category=shirt_color_category,
+                shirt_type=shirt_type
+            )
+
+            if turban_result.get("turban_colors"):
+                primary_turban_color = turban_result["turban_colors"][0]
+            else:
+                primary_turban_color = "Maroon"  # safe Punjabi fallback
+
+            # -------- FITTI FROM SHIRT --------
+            shirt_fitti_color = rgb_to_fitti_color(secondary_rgb)
+
+            final_fitti = recommend_fitti(
+                shirt_fitti_color=shirt_fitti_color,
+                primary_turban_color=primary_turban_color
+            )
+
+            # -------- PANT RECOMMENDATION --------
             pant_types, pant_colors = recommend_pants(shirt_type, shirt_colors)
 
+            # -------- IMAGES --------
+            primary_images = get_primary_turban_images(primary_turban_color)
+            fitti_images = get_fitti_images(final_fitti["fitti_color"])
+            pant_images = get_pant_images(pant_types, pant_colors)
+
+        # =========================
+        # SHIRT SECTION
+        # =========================
         st.markdown("### 👕 Shirt Analysis")
         st.write("**Shirt Type:**", shirt_type.replace("_", " ").title())
-        st.write("**Matching Colors:**", ", ".join(shirt_colors))
+        st.write("**Shirt Main Colors:**", ", ".join(shirt_colors))
 
+        # =========================
+        # PRIMARY TURBAN SECTION
+        # =========================
+        st.markdown("### 🧢 Primary Turban")
+        st.write(f"**Primary Color:** {primary_turban_color}")
+
+        if primary_images:
+            cols = st.columns(len(primary_images))
+            for i, img in enumerate(primary_images):
+                cols[i].image(img, width=220)
+        else:
+            st.info("No primary turban images found.")
+
+        # =========================
+        # FITTI SECTION
+        # =========================
+        st.markdown("### 🎯 FITTI (Balance Near Face)")
+
+        st.markdown(
+            f"""
+            <div style="
+                background-color:#111827;
+                padding:12px;
+                border-radius:12px;
+                border-left:6px solid #22c55e;
+                margin-bottom:12px;
+            ">
+                <b>Fitti Color:</b> {final_fitti['fitti_color']}<br>
+                <small>{final_fitti['reason']}</small>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+        if fitti_images:
+            cols = st.columns(len(fitti_images))
+            for i, img in enumerate(fitti_images):
+                cols[i].image(img, width=180)
+        else:
+            st.info("No FITTI images found.")
+
+        # =========================
+        # PANT SECTION (IMAGES ADDED)
+        # =========================
         st.markdown("### 👖 Pant Recommendation")
 
         st.write("**Pant Types:**")
-        for pant in pant_types:
-            st.write("•", pant.replace("_", " ").title())
+        for p in pant_types:
+            st.write("•", p.replace("_", " ").title())
 
         st.write("**Pant Colors:**")
-        for color in pant_colors:
-            st.write("•", color.title())
+        for c in pant_colors:
+            st.write("•", c.title())
 
-        st.markdown("### 🔥 Celebrity Outfit Inspiration")
-
-        celeb_images = recommend_celebrity_outfits(pant_types, pant_colors)
-
-        if celeb_images:
-            cols = st.columns(3)
-            for i, img in enumerate(celeb_images):
-                cols[i % 3].image(img, width=220)
+        if pant_images:
+            st.markdown("**Recommended Pant Styles:**")
+            cols = st.columns(len(pant_images))
+            for i, img in enumerate(pant_images):
+                cols[i].image(img, width=200)
         else:
-            st.info("No celebrity inspiration available yet.")
+            st.info("No pant images found. Please check pant_styles folder.")
 
     else:
-        st.info("Upload an image to see recommendations.")
+        st.info("Upload a shirt image to see AI recommendations.")
