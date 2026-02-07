@@ -1,35 +1,37 @@
 import cv2
 import numpy as np
+import os
 from sklearn.cluster import KMeans
+from src.shirt_area_detection import extract_shirt_region
+from src.shirt_area_detection import extract_shirt_region
 
 
-def extract_dominant_color(image_path, k=4):
-    """
-    Extract dominant and secondary colors from an image.
+def extract_dominant_color(image_path, k=3):
+    image_path = os.path.abspath(image_path)
 
-    Returns:
-    - dominant_rgb: most frequent color
-    - secondary_rgb: second most frequent color
-    """
+    shirt_region = extract_shirt_region(image_path)
 
-    img = cv2.imread(image_path)
-    if img is None:
-        raise ValueError("Image not found or invalid path")
+    if shirt_region is None:
+        img = extract_shirt_region(image_path)
 
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    img = img.reshape((-1, 3))
+        if image is None:
+            raise ValueError(f"Image not found or path is wrong: {image_path}")
+    else:
+        image = shirt_region
+
+    image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    pixels = image_rgb.reshape((-1, 3))
 
     kmeans = KMeans(n_clusters=k, n_init=10)
-    labels = kmeans.fit_predict(img)
+    kmeans.fit(pixels)
 
-    counts = np.bincount(labels)
-    centers = kmeans.cluster_centers_
+    colors = kmeans.cluster_centers_
+    counts = np.bincount(kmeans.labels_)
 
-    # Sort clusters by frequency (descending)
-    sorted_indices = np.argsort(counts)[::-1]
+    sorted_indices = np.argsort(-counts)
 
-    dominant_rgb = centers[sorted_indices[0]].astype(int)
-    secondary_rgb = centers[sorted_indices[1]].astype(int)
+    dominant_color = colors[sorted_indices[0]]
+    secondary_color = colors[sorted_indices[1]] if len(sorted_indices) > 1 else dominant_color
 
-    return dominant_rgb, secondary_rgb
-
+    # 🚨 MUST RETURN EXACTLY 2 VALUES
+    return dominant_color.astype(int), secondary_color.astype(int)

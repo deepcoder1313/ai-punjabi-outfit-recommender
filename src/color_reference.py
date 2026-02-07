@@ -1,0 +1,15 @@
+COLOR_RGB = {
+    "maroon": (128, 0, 32),
+    "navy_blue": (0, 0, 128),
+    "black": (0,0,0),
+    "cream": (245, 245, 220),
+    "off_white": (240,240,230),
+    "light_grey": (211,211,211),
+    "ferozi": (64,224,208),
+    "olive": (128,128,0),
+    "rust_maroon": (150,60,60),
+    "dark_mauve": (120,80,120),
+    "mouse_grey": (150,150,150),
+    "pink_peach": (255,200,200),
+    "orange_mustard": (204,153,0),
+}

@@ -1,29 +1,58 @@
-def recommend_pants(shirt_type, shirt_color):
-    # Shirt type → pant type mapping
-    pant_type_map = {
-        "formal_shirt": ["jeans", "formal_trousers"],
+import os
+import random
+
+BASE_URL = "http://127.0.0.1:8000/static"
+
+def recommend_pants(shirt_type, shirt_colors):
+    # 1️⃣ Pant type mapping
+    pant_map = {
         "casual_shirt": ["jeans", "chinos"],
-        "t_shirt": ["jeans", "cargos"],
-        "oversized_tshirt": ["cargos", "baggy_jeans"],
+        "formal_shirt": ["formal_trousers", "chinos"],
+        "t_shirt": ["jeans", "joggers"],
         "hoodie": ["joggers", "cargos"]
     }
 
-    # Pant type → color mapping
-    pant_color_map = {
-        "formal_trousers": ["black", "grey", "navy"],
-        "chinos": ["beige", "navy", "olive"],
-        "jeans": ["blue", "black", "grey"],
-        "cargos": ["olive", "khaki", "black"],
-        "baggy_jeans": ["blue", "black"],
-        "joggers": ["black", "grey"]
+    # 2️⃣ Pant color matching
+    color_map = {
+        "White": ["black", "navy", "grey", "olive"],
+        "Black": ["grey", "blue", "beige"],
+        "Navy Blue": ["grey", "black", "olive"],
+        "Brown": ["beige", "black", "navy"],
+        "Grey": ["black", "navy", "olive"]
     }
 
-    # Get pant types
-    pant_types = pant_type_map.get(shirt_type, ["jeans"])
+    pant_types = pant_map.get(shirt_type, ["jeans"])
 
-    # Collect colors
-    pant_colors = set()
+    pant_colors = []
+    for c in shirt_colors:
+        pant_colors.extend(color_map.get(c, []))
+    pant_colors = list(set(pant_colors))
+
+    pant_images = {}
+    base_dir = "data/pant_images"
+
+    # 3️⃣ Collect images from color subfolders
     for pant in pant_types:
-        pant_colors.update(pant_color_map.get(pant, []))
+        pant_images[pant] = []
+        pant_folder = os.path.join(base_dir, pant)
 
-    return pant_types, list(pant_colors)
+        if not os.path.exists(pant_folder):
+            continue
+
+        for color in pant_colors:
+            color_folder = os.path.join(pant_folder, color)
+
+            if not os.path.exists(color_folder):
+                continue
+
+            files = [
+                f for f in os.listdir(color_folder)
+                if f.lower().endswith((".jpg", ".jpeg", ".png"))
+            ]
+
+            for f in random.sample(files, min(2, len(files))):
+                pant_images[pant].append(
+                    f"{BASE_URL}/pant_images/{pant}/{color}/{f}"
+                )
+
+    return pant_types, pant_colors, pant_images

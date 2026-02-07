@@ -1,0 +1,9 @@
+conda activate outfit_ai
+cd C:\Users\Sandeep\Documents\outfit_color_ai
+python -m uvicorn app.main:app --reload
+
+# frontend Run
+
+conda activate outfit_ai
+cd C:\Users\Sandeep\Documents\outfit_color_ai\frontend
+npm run dev

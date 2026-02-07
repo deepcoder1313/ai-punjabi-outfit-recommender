@@ -1,86 +1,48 @@
-import tensorflow as tf
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.keras.applications import MobileNetV2
-from tensorflow.keras.layers import Dense, GlobalAveragePooling2D
-from tensorflow.keras.models import Model
-import os
+import cv2
+import mediapipe as mp
+import numpy as np
 
-# -----------------------------
-# BASIC SETTINGS
-# -----------------------------
-IMG_SIZE = (224, 224)
-BATCH_SIZE = 16
-EPOCHS = 5
+mp_pose = mp.solutions.pose
 
-DATA_DIR = r"C:\Users\Sandeep\Documents\outfit_color_ai\data\shirt_types"
+def extract_shirt_region(image_path):
+    image = cv2.imread(image_path)
 
-# -----------------------------
-# DATA GENERATOR
-# -----------------------------
-datagen = ImageDataGenerator(
-    rescale=1.0 / 255,
-    validation_split=0.2
-)
+    if image is None:
+        return None
 
-train_data = datagen.flow_from_directory(
-    DATA_DIR,
-    target_size=IMG_SIZE,
-    batch_size=BATCH_SIZE,
-    class_mode="categorical",
-    subset="training"
-)
+    image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
-val_data = datagen.flow_from_directory(
-    DATA_DIR,
-    target_size=IMG_SIZE,
-    batch_size=BATCH_SIZE,
-    class_mode="categorical",
-    subset="validation"
-)
+    with mp_pose.Pose(static_image_mode=True) as pose:
+        results = pose.process(image_rgb)
 
-# -----------------------------
-# LOAD PRETRAINED MODEL
-# -----------------------------
-base_model = MobileNetV2(
-    weights="imagenet",
-    include_top=False,
-    input_shape=(224, 224, 3)
-)
+        if not results.pose_landmarks:
+            return None
 
-base_model.trainable = False
+        h, w, _ = image.shape
 
-# -----------------------------
-# ADD CUSTOM CLASSIFIER
-# -----------------------------
-x = base_model.output
-x = GlobalAveragePooling2D()(x)
-x = Dense(128, activation="relu")(x)
-output = Dense(train_data.num_classes, activation="softmax")(x)
+        landmarks = results.pose_landmarks.landmark
 
-model = Model(inputs=base_model.input, outputs=output)
+        left_shoulder = landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER]
+        right_shoulder = landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER]
+        left_hip = landmarks[mp_pose.PoseLandmark.LEFT_HIP]
+        right_hip = landmarks[mp_pose.PoseLandmark.RIGHT_HIP]
 
-# -----------------------------
-# COMPILE MODEL
-# -----------------------------
-model.compile(
-    optimizer="adam",
-    loss="categorical_crossentropy",
-    metrics=["accuracy"]
-)
+        x1 = int(min(left_shoulder.x, right_shoulder.x) * w)
+        x2 = int(max(left_shoulder.x, right_shoulder.x) * w)
+        y1 = int(min(left_shoulder.y, right_shoulder.y) * h)
+        y2 = int(max(left_hip.y, right_hip.y) * h)
 
-# -----------------------------
-# TRAIN MODEL
-# -----------------------------
-model.fit(
-    train_data,
-    validation_data=val_data,
-    epochs=EPOCHS
-)
+        margin_x = int(0.05 * w)
+        margin_y = int(0.05 * h)
 
-# -----------------------------
-# SAVE MODEL
-# -----------------------------
-os.makedirs("models", exist_ok=True)
-model.save("models/shirt_type_model.h5")
+        x1 = max(0, x1 - margin_x)
+        x2 = min(w, x2 + margin_x)
+        y1 = max(0, y1 - margin_y)
+        y2 = min(h, y2 + margin_y)
 
-print("✅ Shirt type model trained and saved successfully")
+        shirt_crop = image[y1:y2, x1:x2]
+
+        if shirt_crop.size == 0:
+            return None
+
+        return shirt_crop

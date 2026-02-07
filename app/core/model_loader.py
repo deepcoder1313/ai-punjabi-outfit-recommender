@@ -1,8 +1,9 @@
-from tensorflow.keras.models import load_model
+# from tensorflow.keras.models import load_model
 
-MODEL_PATH = "models/shirt_type_model.keras"
+#MODEL_PATH = "models/shirt_type_model.keras"
 
 # Load model once when server starts
-shirt_model = load_model(MODEL_PATH)
+#shirt_model = load_model(MODEL_PATH)
 
-print("✅ Shirt type model loaded successfully")
+#print("✅ Shirt type model loaded successfully")
+shirt_model = None

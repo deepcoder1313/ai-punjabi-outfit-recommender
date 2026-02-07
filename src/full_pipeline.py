@@ -19,7 +19,8 @@ image_path = r"C:\Users\Sandeep\Documents\outfit_color_ai\data\raw_images\shirt.
 # STEP 2: Color extraction
 # ==============================
 
-dominant_rgb = extract_dominant_color(image_path)
+dominant_rgb, secondary_rgb = extract_dominant_color(image_path)
+
 print("🎨 Dominant RGB:", dominant_rgb)
 
 
