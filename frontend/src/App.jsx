@@ -64,17 +64,21 @@ function App() {
     try {
       setLoading(true);
 
-    const res = await axios.post(
-  `${import.meta.env.VITE_API_URL}/recommend-outfit`,
+      const res = await axios.post(
+  "https://ai-punjabi-outfit-recommender-4.onrender.com/recommend-outfit",
   formData,
-  { headers: { "Content-Type": "multipart/form-data" } }
+  {
+    headers: {
+      "Content-Type": "multipart/form-data"
+    }
+  }
 );
       setData(res.data);
 
     } catch (err) {
-      console.error(err);
-      alert("Error while calling API");
-    }
+  console.log(err.response); // 🔥 important
+  alert("Error while calling API");
+}
     finally {
       setLoading(false);
     }
