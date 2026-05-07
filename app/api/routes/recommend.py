@@ -9,10 +9,10 @@ from src.predict_shirt_type import predict_shirt_type
 from src.pant_recommendation import recommend_pants
 from src.turban_recommendation import recommend_turban_and_fitti
 
-router = APIRouter()
+router = APIRouter(prefix="/recommend-outfit")
 
 
-@router.post("/recommend-outfit")
+@router.post("/")
 async def recommend_outfit(
     request: Request,
     file: UploadFile = File(...)
