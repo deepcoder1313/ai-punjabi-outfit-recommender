@@ -32,7 +32,7 @@ function ImageSlider({ images }) {
     </Swiper>
   );
 }
-console.log(data);
+
 
 function App() {
   const [file, setFile]       = useState(null);
@@ -40,7 +40,7 @@ function App() {
   const [data, setData]       = useState(null);
   const [loading, setLoading] = useState(false);
   const inputRef              = useRef(null);
-
+    console.log(data);
   const handleFileChange = (e) => {
     const f = e.target.files[0];
     if (!f) return;
@@ -166,8 +166,8 @@ function App() {
             <div className="results-grid fade-in">
 
               {/* PANTS */}
-              {data.pant_images &&
-                Object.entries(data.pant_images).map(([type, images]) => (
+              {data?.pant_images &&
+  Object.entries(data.pant_images).map(([type, images]) => (
                   <div key={type} className="section-block">
                     <h3 className="section-title">
                       <span className="section-dot" />
