@@ -1,7 +1,7 @@
 import os
 import random
 
-BASE_URL = "http://127.0.0.1:8000/static"
+BASE_URL = "/static/..."
 
 def recommend_pants(shirt_type, shirt_colors):
     # 1️⃣ Pant type mapping
