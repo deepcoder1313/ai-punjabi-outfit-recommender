@@ -1,7 +1,9 @@
 import os
 import random
 
-BASE_URL = "/static/..."
+import pant_images
+
+
 
 def recommend_pants(shirt_type, shirt_colors):
     # 1️⃣ Pant type mapping
@@ -52,7 +54,9 @@ def recommend_pants(shirt_type, shirt_colors):
 
             for f in random.sample(files, min(2, len(files))):
                 pant_images[pant].append(
-                    f"{BASE_URL}/pant_images/{pant}/{color}/{f}"
-                )
+    f"data/pant_images/{pant}/{color}/{f}"
+)
 
+    print(pant_images)  # move before return if needed
     return pant_types, pant_colors, pant_images
+  
