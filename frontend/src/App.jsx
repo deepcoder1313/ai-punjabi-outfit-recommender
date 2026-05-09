@@ -63,26 +63,32 @@ function App() {
   };
 
   const handleSubmit = async () => {
-    if (!file) return;
-    const formData = new FormData();
-    formData.append("file", file);
-    try {
-      setLoading(true);
-      const res = await axios.post(
-        "https://ai-punjabi-outfit-recommender-4.onrender.com/recommend-outfit",
-        formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
-      setData(res.data);
-    } catch (err) {
-      console.log(err.response);
-      console.log(res.data.pant_images);
-      alert("Error while calling API");
-    } finally {
-      setLoading(false);
-    }
-  };
+  if (!file) return;
 
+  const formData = new FormData();
+  formData.append("file", file);
+
+  try {
+    setLoading(true);
+
+    const res = await axios.post(
+      "https://ai-punjabi-outfit-recommender-4.onrender.com/recommend-outfit",
+      formData,
+      { headers: { "Content-Type": "multipart/form-data" } }
+    );
+
+    console.log("FULL DATA:", res.data);           // ✅
+    console.log("PANT IMAGES:", res.data.pant_images); // ✅
+
+    setData(res.data);
+
+  } catch (err) {
+    console.log("ERROR:", err.response);
+    alert("Error while calling API");
+  } finally {
+    setLoading(false);
+  }
+};
   return (
     <div className="app-container">
 
