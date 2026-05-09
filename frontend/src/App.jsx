@@ -40,7 +40,7 @@ function App() {
   const [data, setData]       = useState(null);
   const [loading, setLoading] = useState(false);
   const inputRef              = useRef(null);
-    console.log(data);
+  
   const handleFileChange = (e) => {
     const f = e.target.files[0];
     if (!f) return;
