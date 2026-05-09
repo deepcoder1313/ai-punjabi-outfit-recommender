@@ -63,7 +63,12 @@ function App() {
   };
 
   const handleSubmit = async () => {
-  if (!file) return;
+  console.log("BUTTON CLICKED");  // 🔥 test
+
+  if (!file) {
+    console.log("NO FILE SELECTED");
+    return;
+  }
 
   const formData = new FormData();
   formData.append("file", file);
@@ -71,20 +76,21 @@ function App() {
   try {
     setLoading(true);
 
+    console.log("SENDING REQUEST...");
+
     const res = await axios.post(
       "https://ai-punjabi-outfit-recommender-4.onrender.com/recommend-outfit",
       formData,
       { headers: { "Content-Type": "multipart/form-data" } }
     );
 
-    console.log("FULL DATA:", res.data);           // ✅
-    console.log("PANT IMAGES:", res.data.pant_images); // ✅
+    console.log("RESPONSE RECEIVED:", res.data);  // 🔥 important
+    console.log("PANT IMAGES:", res.data.pant_images);
 
     setData(res.data);
 
   } catch (err) {
-    console.log("ERROR:", err.response);
-    alert("Error while calling API");
+    console.log("ERROR:", err);
   } finally {
     setLoading(false);
   }
@@ -177,16 +183,22 @@ function App() {
             <div className="results-grid fade-in">
 
               {/* PANTS */}
-              {data?.pant_images &&
+             {data?.pant_images &&
   Object.entries(data.pant_images).map(([type, images]) => (
-                  <div key={type} className="section-block">
-                    <h3 className="section-title">
-                      <span className="section-dot" />
-                      {type.replace(/_/g, " ").toUpperCase()}
-                    </h3>
-                  <img src={images[0]} style={{ width: "200px" }} />
-                  </div>
-                ))}
+    <div key={type} className="section-block">
+      
+      <div className="section-title">
+        {type.toUpperCase()}
+      </div>
+
+      {images && images.length > 0 ? (
+        <ImageSlider images={images} />
+      ) : (
+        <p style={{ color: "gray" }}>No images found</p>
+      )}
+
+    </div>
+))}
 
               {/* TURBANS */}
               {data.turban_images &&
