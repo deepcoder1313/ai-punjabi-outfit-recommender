@@ -192,7 +192,7 @@ function App() {
       </div>
 
       {images && images.length > 0 ? (
-        <img src={images[0]} style={{ width: "200px" }} />
+        <ImageSlider images={images} />
       ) : (
         <p style={{ color: "gray" }}>No images found</p>
       )}
