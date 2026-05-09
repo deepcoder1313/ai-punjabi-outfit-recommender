@@ -1,13 +1,17 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-
+from starlette.responses import Response
 from app.api.routes.recommend import router as recommend_router
 
 app = FastAPI(title="AI Outfit Recommendation API")
-
+class CustomStaticFiles(StaticFiles):
+    async def get_response(self, path, scope):
+        response = await super().get_response(path, scope)
+        response.headers["Access-Control-Allow-Origin"] = "*"
+        return response
 # Static (optional)
-app.mount("/static", StaticFiles(directory="data"), name="static")
+app.mount("/static", CustomStaticFiles(directory="data"), name="static")
 
 # CORS
 app.add_middleware(
