@@ -76,6 +76,7 @@ function App() {
       setData(res.data);
     } catch (err) {
       console.log(err.response);
+      console.log(res.data.pant_images);
       alert("Error while calling API");
     } finally {
       setLoading(false);
