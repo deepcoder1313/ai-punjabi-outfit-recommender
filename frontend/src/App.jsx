@@ -9,19 +9,13 @@ import "./App.css";
 function ImageSlider({ images }) {
   if (!images || images.length === 0) return null;
   return (
-    <Swiper
-      modules={[Navigation]}
-      navigation
-      spaceBetween={14}
-      slidesPerView={1.2}
-      breakpoints={{
-        0:    { slidesPerView: 1.2 },
-        480:  { slidesPerView: 1.5 },
-        768:  { slidesPerView: 2 },
-        1024: { slidesPerView: 3 },
-      }}
-      style={{ paddingBottom: "8px" }}
-    >
+   <Swiper
+  modules={[Navigation]}
+  navigation
+  spaceBetween={10}
+  slidesPerView={1}
+  style={{ width: "100%", height: "200px" }}  // 🔥 important
+>
       {images.map((img, i) => (
         <SwiperSlide key={i}>
           <div className="image-card">
