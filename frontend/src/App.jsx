@@ -25,7 +25,11 @@ function ImageSlider({ images }) {
       {images.map((img, i) => (
         <SwiperSlide key={i}>
           <div className="image-card">
-            <img src={img} alt="" loading="lazy" />
+            <img 
+  src={img} 
+  alt="" 
+  onError={(e) => e.target.style.display = "none"} 
+/>
           </div>
         </SwiperSlide>
       ))}
@@ -173,7 +177,7 @@ function App() {
                       <span className="section-dot" />
                       {type.replace(/_/g, " ").toUpperCase()}
                     </h3>
-                    <ImageSlider images={images} />
+                  <img src={images[0]} style={{ width: "200px" }} />
                   </div>
                 ))}
 
@@ -185,7 +189,7 @@ function App() {
                       <span className="section-dot turban" />
                       Turban — {color}
                     </h3>
-                    <ImageSlider images={images} />
+                  <img src={images[0]} style={{ width: "200px" }} />
                   </div>
                 ))}
 
