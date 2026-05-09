@@ -25,11 +25,7 @@ function ImageSlider({ images }) {
       {images.map((img, i) => (
         <SwiperSlide key={i}>
           <div className="image-card">
-            <img 
-  src={img} 
-  alt="" 
-  onError={(e) => e.target.style.display = "none"} 
-/>
+<img src={img} alt="" />
           </div>
         </SwiperSlide>
       ))}
@@ -192,7 +188,11 @@ function App() {
       </div>
 
       {images && images.length > 0 ? (
-        <ImageSlider images={images} />
+        <div style={{ display: "flex", gap: "10px" }}>
+  {images.map((img, i) => (
+    <img key={i} src={img} style={{ width: "120px" }} />
+  ))}
+</div>
       ) : (
         <p style={{ color: "gray" }}>No images found</p>
       )}
