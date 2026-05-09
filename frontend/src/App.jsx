@@ -13,11 +13,12 @@ function ImageSlider({ images }) {
       modules={[Navigation]}
       navigation
       spaceBetween={14}
+      slidesPerView={1.2}
       breakpoints={{
         0:    { slidesPerView: 1.2 },
-        480:  { slidesPerView: 1.6 },
-        768:  { slidesPerView: 2.3 },
-        1024: { slidesPerView: 3.2 },
+        480:  { slidesPerView: 1.5 },
+        768:  { slidesPerView: 2 },
+        1024: { slidesPerView: 3 },
       }}
       style={{ paddingBottom: "8px" }}
     >
@@ -31,6 +32,7 @@ function ImageSlider({ images }) {
     </Swiper>
   );
 }
+console.log(data);
 
 function App() {
   const [file, setFile]       = useState(null);
