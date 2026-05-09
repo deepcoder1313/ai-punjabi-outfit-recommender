@@ -37,20 +37,21 @@ async def recommend_outfit(
         BASE_URL = "https://ai-punjabi-outfit-recommender-4.onrender.com"
 
         def to_url(path: str):
-            path = path.replace("\\", "/")
+          path = path.replace("\\", "/")
 
-            # already a url → return directly
-            if path.startswith("http") :
-                return path
+    # 🔥 FORCE FIX (important)
+          if "127.0.0.1" in path:
+             path = path.replace("http://127.0.0.1:8000", BASE_URL)
 
-            # remove absolute part if accidentally passed
-            if "data/" in path:
-                rel = path.split("data/", 1)[1]
-            else:
-                # fallback (do not crash)
-                rel = path.lstrip("/")
+          if path.startswith("http"):
+           return path
 
-            return f"{BASE_URL}/static/{rel}"
+          if "data/" in path:
+           rel = path.split("data/", 1)[1]
+          else:
+           rel = path.lstrip("/")
+
+          return f"{BASE_URL}/static/{rel}"
 
         # -------------------------------
         # color extraction
