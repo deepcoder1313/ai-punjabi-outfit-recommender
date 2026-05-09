@@ -231,4 +231,4 @@ function App() {
 }
 
 export default App;
-console.log("Pant images:", data.pant_images);
+
