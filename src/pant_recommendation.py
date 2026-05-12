@@ -29,34 +29,37 @@ def recommend_pants(shirt_type, shirt_colors):
         pant_colors.extend(color_map.get(c, []))
     pant_colors = list(set(pant_colors))
 
-    pant_images = {}
     base_dir = "data/pant_images"
 
-    # 3️⃣ Collect images from color subfolders
-    for pant in pant_types:
-        pant_images[pant] = []
+    pant_images = {}
+    pant_types = []
+
+# 🔥 only use existing folders
+    if os.path.isdir(base_dir):
+     for pant in os.listdir(base_dir):
         pant_folder = os.path.join(base_dir, pant)
 
-    # 🔥 FIX: skip if folder missing
         if not os.path.isdir(pant_folder):
-         print(f"Skipping missing folder: {pant_folder}")
-        continue
-
-    for color in os.listdir(pant_folder):  # safer
-        color_folder = os.path.join(pant_folder, color)
-
-        if not os.path.isdir(color_folder):
             continue
 
-        files = [
-            f for f in os.listdir(color_folder)
-            if f.lower().endswith((".jpg", ".jpeg", ".png"))
-        ]
+        pant_types.append(pant)
+        pant_images[pant] = []
 
-        for f in random.sample(files, min(2, len(files))):
-            pant_images[pant].append(
-                f"data/pant_images/{pant}/{color}/{f}"
-            )
+        for color in os.listdir(pant_folder):
+            color_folder = os.path.join(pant_folder, color)
+
+            if not os.path.isdir(color_folder):
+                continue
+
+            files = [
+                f for f in os.listdir(color_folder)
+                if f.lower().endswith((".jpg", ".jpeg", ".png"))
+            ]
+
+            for f in random.sample(files, min(2, len(files))):
+                pant_images[pant].append(
+                    f"data/pant_images/{pant}/{color}/{f}"
+                )
     print(pant_images) 
     print("Pant colors:", pant_colors)
     print("Checking folder:", color_folder) # move before return if needed
