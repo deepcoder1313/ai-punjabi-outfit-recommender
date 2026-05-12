@@ -35,28 +35,30 @@ def recommend_pants(shirt_type, shirt_colors):
 
     # 3️⃣ Collect images from color subfolders
     for pant in pant_types:
-        pant_images[pant] = []
-        pant_folder = os.path.join(base_dir, pant)
+         pant_images[pant] = []
+         pant_folder = os.path.join(base_dir, pant)
 
-        if not os.path.exists(pant_folder):
+         if not os.path.exists(pant_folder):
+          continue
+
+    for color in os.listdir(pant_folder):  # 🔥 FIX HERE
+        color_folder = os.path.join(pant_folder, color)
+
+        if not os.path.isdir(color_folder):
             continue
 
-        for color in pant_colors:
-            color_folder = os.path.join(pant_folder, color)
+        files = [
+            f for f in os.listdir(color_folder)
+            if f.lower().endswith((".jpg", ".jpeg", ".png"))
+        ]
 
-            if not os.path.exists(color_folder):
-                continue
+        for f in random.sample(files, min(2, len(files))):
+            pant_images[pant].append(
+                f"data/pant_images/{pant}/{color}/{f}"
+            )
 
-            files = [
-                f for f in os.listdir(color_folder)
-                if f.lower().endswith((".jpg", ".jpeg", ".png"))
-            ]
-
-            for f in random.sample(files, min(2, len(files))):
-                pant_images[pant].append(
-    f"data/pant_images/{pant}/{color}/{f}"
-)
-
-    print(pant_images)  # move before return if needed
+    print(pant_images) 
+    print("Pant colors:", pant_colors)
+    print("Checking folder:", color_folder) # move before return if needed
     return pant_types, pant_colors, pant_images
   
