@@ -1,7 +1,6 @@
 import os
 import random
 
-import pant_images
 
 
 
