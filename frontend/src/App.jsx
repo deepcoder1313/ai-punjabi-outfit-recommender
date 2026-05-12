@@ -81,6 +81,9 @@ function App() {
 
   } catch (err) {
     console.log("ERROR:", err);
+    console.log("ERROR RESPONSE:", err.response);
+  console.log("ERROR DATA:", err.response?.data);
+  alert("Error while calling API");
   } finally {
     setLoading(false);
   }

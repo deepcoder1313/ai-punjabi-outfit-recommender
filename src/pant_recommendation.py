@@ -34,13 +34,15 @@ def recommend_pants(shirt_type, shirt_colors):
 
     # 3️⃣ Collect images from color subfolders
     for pant in pant_types:
-         pant_images[pant] = []
-         pant_folder = os.path.join(base_dir, pant)
+        pant_images[pant] = []
+        pant_folder = os.path.join(base_dir, pant)
 
-         if not os.path.exists(pant_folder):
-          continue
+    # 🔥 FIX: skip if folder missing
+        if not os.path.isdir(pant_folder):
+         print(f"Skipping missing folder: {pant_folder}")
+        continue
 
-    for color in os.listdir(pant_folder):  # 🔥 FIX HERE
+    for color in os.listdir(pant_folder):  # safer
         color_folder = os.path.join(pant_folder, color)
 
         if not os.path.isdir(color_folder):
@@ -55,7 +57,6 @@ def recommend_pants(shirt_type, shirt_colors):
             pant_images[pant].append(
                 f"data/pant_images/{pant}/{color}/{f}"
             )
-
     print(pant_images) 
     print("Pant colors:", pant_colors)
     print("Checking folder:", color_folder) # move before return if needed
