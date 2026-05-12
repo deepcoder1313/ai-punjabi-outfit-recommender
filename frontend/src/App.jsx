@@ -213,7 +213,11 @@ function App() {
                     <span className="section-dot fitti" />
                     Fitti — {data.fitti_color}
                   </h3>
-                  <ImageSlider images={data.fitti_images} />
+                 <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+  {images.map((img, i) => (
+    <img key={i} src={img} style={{ width: "120px" }} />
+  ))}
+</div>
                 </div>
               )}
             </div>
