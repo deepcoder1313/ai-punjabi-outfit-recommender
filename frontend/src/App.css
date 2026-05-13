@@ -438,3 +438,15 @@ body {
     font-size: 12px;
   }
 }
+
+.fitti-container {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.fitti-img {
+  width: 120px;        /* 🔥 control size */
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+}
