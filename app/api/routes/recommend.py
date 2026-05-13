@@ -107,6 +107,7 @@ async def recommend_outfit(
         # -------------------------------
         # response
         # -------------------------------
+        print("NEW VERSION RUNNING 🔥")
         return {
             "shirt_type": shirt_type,
             "shirt_colors": shirt_colors,
@@ -121,6 +122,7 @@ async def recommend_outfit(
             "fitti_color": turban_result["fitti_color"],
             "fitti_images": fitti_images,
         }
+    
 
     except Exception as e:
         return {
