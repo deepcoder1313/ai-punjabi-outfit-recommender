@@ -441,12 +441,19 @@ body {
 
 .fitti-container {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   flex-wrap: wrap;
+  align-items: center;
+  max-width: 400px;   /* 🔥 ADD THIS */
 }
 .fitti-img {
-  width: 120px;        /* 🔥 control size */
+  width: 120px;
   height: 120px;
   object-fit: cover;
   border-radius: 10px;
+  flex-shrink: 0;   /* 🔥 IMPORTANT */
+}
+
+.section-block {
+  max-width: 900px;
 }
