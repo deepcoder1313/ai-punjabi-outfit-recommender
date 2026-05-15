@@ -334,6 +334,7 @@ body {
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   overflow: hidden;
+  object-fit: cover;
   box-shadow: var(--shadow-card);
   transition: transform 0.2s, box-shadow 0.2s;
 }
@@ -444,16 +445,15 @@ body {
   gap: 12px;
   flex-wrap: wrap;
   align-items: center;
-  max-width: 400px;   /* 🔥 ADD THIS */
+  max-width: 400px;
+  overflow: hidden;   /* 🔥 prevents stretching */
 }
 .fitti-img {
-  width: 120px;
-  height: 120px;
-  object-fit: cover;
+  width: 120px !important;
+  height: 120px !important;
+  object-fit: cover !important;
   border-radius: 10px;
-  flex-shrink: 0;   /* 🔥 IMPORTANT */
 }
-
 .section-block {
   max-width: 900px;
 }

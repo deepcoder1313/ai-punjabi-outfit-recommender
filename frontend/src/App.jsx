@@ -216,9 +216,11 @@ function App() {
                     <span className="section-dot fitti" />
                     Fitti — {data.fitti_color}
                   </h3>
-                <div className="fitti-container">
+ <div className="fitti-container">
   {data.fitti_images.map((img, i) => (
-    <img key={i} src={img} className="fitti-img" />
+    <div className="image-card" key={i}>
+      <img src={img} alt="" />
+    </div>
   ))}
 </div>
                 </div>
