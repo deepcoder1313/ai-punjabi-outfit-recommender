@@ -441,24 +441,3 @@ body {
 }
 
 
-.fitti-card {
-  width: 220px;
-  height: 120px;
-  background: #111827;
-  border-radius: 12px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.fitti-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain !important;   /* 🔥 THIS IS THE REAL FIX */
-}
-.fitti-container {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
