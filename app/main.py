@@ -21,7 +21,9 @@ app.mount("/static", CustomStaticFiles(directory="data"), name="static")
 # CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "https://aiclothpunjabi.netlify.app",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
