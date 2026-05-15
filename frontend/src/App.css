@@ -445,7 +445,7 @@ body {
   gap: 12px;
   flex-wrap: wrap;
   align-items: center;
-  max-width: 400px;
+  max-width: 50px;
   overflow: hidden;   /* 🔥 prevents stretching */
 }
 .fitti-img {
