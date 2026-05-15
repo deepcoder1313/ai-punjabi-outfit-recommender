@@ -334,7 +334,7 @@ body {
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   overflow: hidden;
-  object-fit: cover;
+  object-fit: contain;
   box-shadow: var(--shadow-card);
   transition: transform 0.2s, box-shadow 0.2s;
 }
