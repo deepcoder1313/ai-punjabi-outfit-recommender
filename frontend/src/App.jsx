@@ -96,6 +96,7 @@ function App() {
         <div className="header-inner">
           <span className="header-logo">✦</span>
           <span className="header-title">Punjabi AI Outfit Recommender</span>
+          <h1 style={{ color: "red" }}>NEW VERSION TEST</h1>
         </div>
       </header>
 
