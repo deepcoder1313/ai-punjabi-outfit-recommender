@@ -318,7 +318,7 @@ body {
 }
 
 .section-dot.turban { background: var(--accent2); }
-.section-dot.fitti  { background: #a78bfa; }
+
 
 /* ─────────────────────────────────────────────
    IMAGE CARDS
@@ -342,7 +342,7 @@ body {
 .image-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 12px 36px rgba(0,0,0,0.55);
-}
+}   
 
 .image-card img {
   width: 100%;
