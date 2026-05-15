@@ -440,20 +440,20 @@ body {
   }
 }
 
-.fitti-container {
+
+.fitti-card {
+  width: 220px;
+  height: 120px;
+  background: #111827;
+  border-radius: 12px;
+  overflow: hidden;
   display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
   align-items: center;
-  max-width: 50px;
-  overflow: hidden;   /* 🔥 prevents stretching */
+  justify-content: center;
 }
+
 .fitti-img {
-  width: 120px !important;
-  height: 120px !important;
-  object-fit: cover !important;
-  border-radius: 10px;
-}
-.section-block {
-  max-width: 900px;
+  width: 100%;
+  height: 100%;
+  object-fit: contain !important;   /* 🔥 THIS IS THE REAL FIX */
 }

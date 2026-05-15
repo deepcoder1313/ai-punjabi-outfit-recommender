@@ -212,19 +212,26 @@ function App() {
 
               {/* FITTI */}
               {data.fitti_images && data.fitti_images.length > 0 && (
-                <div className="section-block">
-                  <h3 className="section-title">
-                    <span className="section-dot fitti" />
-                    Fitti — {data.fitti_color}
-                  </h3>
- <div className="fitti-container">
+  <div className="section-block">
+    
+    <h3 className="section-title">
+      <span className="section-dot fitti" />
+      Fitti – {data.fitti_color}
+    </h3>
+
+    <ImageSlider images={data.fitti_images} />
+
+ 
+
+                  
+<div className="fitti-container">
   {data.fitti_images.map((img, i) => (
-    <div className="image-card" key={i}>
-      <img src={img} alt="" />
+    <div className="fitti-card" key={i}>
+      <img src={img} className="fitti-img" />
     </div>
   ))}
 </div>
-                </div>
+               </div>  
               )}
             </div>
           )}
