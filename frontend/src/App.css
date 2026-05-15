@@ -292,9 +292,8 @@ body {
   gap: 32px;
 }
 
-.section-block {
-  /* no extra card wrapper — let slider breathe */
-}
+/* extra card wrapper — let slider breathe */
+
 
 .section-title {
   display: flex;
@@ -368,10 +367,7 @@ body {
   box-shadow: var(--shadow-card);
 }
 
-.swiper {
-  width: 100%;
-  height: auto;
-}
+
 
 .swiper-button-prev::after,
 .swiper-button-next::after {
@@ -442,7 +438,4 @@ body {
   }
 }
 
-.swiper-slide {
-  width: auto !important;
-}
 
