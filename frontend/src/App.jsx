@@ -95,7 +95,7 @@ function App() {
       <header className="header">
         <div className="header-inner">
           <span className="header-logo">✦</span>
-          <span className="header-title">Punjabi AI Outfit Recommender</span>
+          <span className="header-title">HELLO SANDEEP TEST 555</span>
           <h1>FITTI REMOVED</h1>
         
         </div>
