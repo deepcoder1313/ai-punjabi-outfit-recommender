@@ -80,7 +80,7 @@ function App() {
     console.log("SENDING REQUEST...");
 
     const res = await axios.post(
-      "https://ai-punjabi-outfit-recommender-4.onrender.com/recommend-outfit",
+      "http://192.168.31.237:8000/recommend-outfit/",
       formData,
       { headers: { "Content-Type": "multipart/form-data" } }
     );
@@ -106,8 +106,8 @@ function App() {
       <header className="header">
         <div className="header-inner">
           <span className="header-logo">✦</span>
-          <span className="header-title">HELLO SANDEEP TEST 555</span>
-          <h1>FITTI REMOVED</h1>
+          <span className="header-title">Punjabi AI Outfit Recommender</span>
+      
         
         </div>
       </header>
@@ -222,7 +222,19 @@ function App() {
                   </div>
                 ))}
 
-             
+             {/* FITTI */}
+{data.fitti_images && data.fitti_images.length > 0 && (
+  <div className="section-block">
+    
+    <h3 className="section-title">
+      <span className="section-dot fitti" />
+      Fitti – {data.fitti_color}
+    </h3>
+
+    <ImageSlider images={data.fitti_images} />
+
+  </div>
+)}
               
             </div>
           )}

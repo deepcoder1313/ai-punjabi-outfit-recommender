@@ -1,62 +1,126 @@
-# 👔 AI Outfit Recommendation System (Punjabi Fashion)
+# Punjabi AI Outfit Recommender 👔✨
 
-An AI-powered fashion recommendation system that analyzes a shirt image and suggests:
-- Shirt type and color
-- Matching pant types and colors
-- Celebrity outfit inspiration
-- (Upcoming) Turban (Pagri) color recommendations based on Punjabi culture
+An AI-powered fashion recommendation system that suggests:
 
-This project is built as a **real-world prototype** and is continuously improved.
+- Matching pants 👖
+- Turban recommendations 🧢
+- Punjabi outfit combinations 🇮🇳
 
----
-
-## 🚀 Features
-- Shirt color extraction using Computer Vision (OpenCV + KMeans)
-- Shirt type prediction using Deep Learning (MobileNetV2 – Transfer Learning)
-- Rule-based pant recommendations (region & trend aware)
-- Celebrity outfit inspiration using image retrieval
-- Clean and professional Streamlit UI
+based on the uploaded shirt image using Computer Vision and Machine Learning.
 
 ---
 
-## 🛠 Tech Stack
+# 🔥 Features
+
+✅ Upload shirt image  
+✅ Detect dominant shirt colors  
+✅ Predict shirt type using AI  
+✅ Recommend matching pants  
+✅ Recommend matching turbans  
+✅ Responsive frontend UI  
+✅ FastAPI backend API  
+✅ React + Vite frontend  
+✅ Mobile responsive support  
+
+---
+
+# 🛠️ Tech Stack
+
+## Frontend
+- React.js
+- Vite
+- Swiper.js
+- Axios
+- CSS3
+
+## Backend
+- FastAPI
 - Python
 - OpenCV
-- TensorFlow / Keras
-- Scikit-learn
-- Streamlit
+- NumPy
+- Pillow
+
+## Deployment
+- Netlify (Frontend)
+- Render (Backend)
 
 ---
 
-## 📂 Project Structure
-outfit_color_ai/
-├── app.py
-├── src/
-├── data/
-├── models/
+# 📂 Project Structure
 
-
----
-
-## ▶️ How to Run
 ```bash
+outfit_color_ai/
+│
+├── app/
+│   ├── main.py
+│   └── api/
+│       └── routes/
+│           └── recommend.py
+│
+├── src/
+│   ├── color_extraction.py
+│   ├── color_matching.py
+│   ├── predict_shirt_type.py
+│   ├── pant_recommendation.py
+│   └── turban_recommendation.py
+│
+├── data/
+│   ├── pant_images/
+│   ├── turban_images/
+│   └── fitti_images/
+│
+├── frontend/
+│
+└── requirements.txt
+
+⚙️ Installation
+
+1️⃣ Clone Repository
+git clone https://github.com/your-username/your-repo-name.git
+cd outfit_color_ai
+
+2️⃣ Create Virtual Environment
+python -m venv venv
+
+Windows
+venv\Scripts\activate
+
+3️⃣ Install Backend Dependencies
 pip install -r requirements.txt
-python -m streamlit run app.py
 
+🚀 Run Backend
 
-🌱 Future Work
+From root folder:
 
-Turban (Pagri) color recommendation based on Punjabi culture
+uvicorn app.main:app --reload
 
-Convert Streamlit prototype to a full-stack web application
+🚀 Run Frontend
 
-Deploy on a production-ready website
+Go to frontend folder:
 
-Add monetization via affiliate links and partnerships
+cd frontend
+npm install
+npm run dev
 
+🧠 AI Workflow
+Upload shirt image
+Extract dominant colors
+Detect shirt type
+Match suitable pant colors
+Recommend turban combinations
+Display outfit suggestions
 
-👨‍🎓 Author
+👨‍💻 Developer
 
 Sandeep Singh
-B.Tech (AI/ML) | Semester 1
-Learning by building real-world projects
+
+B.Tech AI & ML Student
+Passionate about AI, Computer Vision, and Full Stack Development.
+
+# 🔗 Connect With Me
+
+## GitHub
+[GitHub Profile](https://github.com/deepcoder1313)
+
+## LinkedIn
+[LinkedIn Profile](https://www.linkedin.com/in/sandeep-singh-781671357/)

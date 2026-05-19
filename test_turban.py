@@ -1,7 +1,7 @@
-from src.turban_recommendation import recommend_turban
+from src.turban_recommendation import recommend_turban_and_fitti
 
 # Example test
-result = recommend_turban(
+result = recommend_turban_and_fitti(
     shirt_color_category="white",
     shirt_type="casual_shirt"
 )

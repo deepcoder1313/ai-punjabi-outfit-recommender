@@ -323,21 +323,11 @@ body {
    IMAGE CARDS
 ───────────────────────────────────────────── */
 .image-card {
-  max-width: 220px;
-  margin: auto;
   width: 100%;
+  max-width: 220px;
   height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  aspect-ratio: 3 / 4;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
+  margin: auto;
   overflow: hidden;
-  object-fit: contain;
-  box-shadow: var(--shadow-card);
-  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .image-card:hover {
@@ -438,4 +428,42 @@ body {
   }
 }
 
+.fitti-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain !important;
+}
 
+.fitti-card {
+  width: 220px;
+  height: 120px;
+  background: #111827;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+* {
+  max-width: 100%;
+}
+.swiper {
+  width: 100%;
+  overflow: hidden;
+}
+
+.swiper-wrapper {
+  width: 100%;
+}
+
+.swiper-slide {
+  width: 100% !important;
+  display: flex;
+  justify-content: center;
+}

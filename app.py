@@ -1,11 +1,11 @@
 import streamlit as st
 import os
 
-from src.color_extraction import extract_top_colors
+from src.color_extraction import extract_dominant_color
 from src.color_matching import match_colors
 from src.predict_shirt_type import predict_shirt_type
 from src.pant_recommendation import recommend_pants
-from src.turban_recommendation import recommend_turban
+from src.turban_recommendation import recommend_turban_and_fitti
 from src.fitti_color_mapping import rgb_to_fitti_color
 from src.fitti_recommendation import recommend_fitti
 from src.turban_images import (
@@ -95,7 +95,7 @@ with right_col:
         with st.spinner("Analyzing full Punjabi outfit styling..."):
 
             # -------- SHIRT COLORS --------
-            dominant_rgb, secondary_rgb = extract_top_colors(image_path)
+            dominant_rgb, secondary_rgb = extract_dominant_color(image_path)
             shirt_colors = match_colors(dominant_rgb)
 
             # -------- SHIRT TYPE --------
@@ -106,9 +106,9 @@ with right_col:
             shirt_color_category = get_shirt_color_category(dominant_rgb)
 
             # -------- TURBAN PRIMARY --------
-            turban_result = recommend_turban(
-                shirt_color_category=shirt_color_category,
-                shirt_type=shirt_type
+            turban_result = recommend_turban_and_fitti(
+                 secondary_rgb=secondary_rgb
+                
             )
 
             if turban_result.get("turban_colors"):
@@ -125,7 +125,10 @@ with right_col:
             )
 
             # -------- PANT RECOMMENDATION --------
-            pant_types, pant_colors = recommend_pants(shirt_type, shirt_colors)
+            pant_types, pant_colors, pant_images = recommend_pants(
+            shirt_type,
+                  shirt_colors
+                           )
 
             # -------- IMAGES --------
             primary_images = get_primary_turban_images(primary_turban_color)
